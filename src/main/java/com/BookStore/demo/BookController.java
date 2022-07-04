@@ -24,4 +24,13 @@ public class BookController {
     public void addBook(@RequestBody Book book){
         bookDataBase.addBook(book);
     }
+
+    @DeleteMapping("/delete/{name}")
+    public void deleteBook(@PathVariable String name){
+        bookDataBase.deleteBook(name);
+    }
+    @PutMapping("/update/{name}")
+    public void updateBook(@PathVariable String name,@RequestBody Book book){
+        bookDataBase.updateBook(name,book);
+    }
 }
