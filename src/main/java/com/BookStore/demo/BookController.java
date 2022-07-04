@@ -8,7 +8,7 @@ import java.util.List;
 @RestController
 public class BookController {
 
-    private BookDataBase bookDataBase;
+    private final BookDataBase bookDataBase;
 
     @Autowired
     public BookController(BookDataBase bookDataBase) {
@@ -21,16 +21,16 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    public void addBook(@RequestBody Book book){
-        bookDataBase.addBook(book);
+    public Long addBook(@RequestBody Book book){
+        return bookDataBase.addBook(book);
     }
 
-    @DeleteMapping("/delete/{name}")
-    public void deleteBook(@PathVariable String name){
-        bookDataBase.deleteBook(name);
+    @DeleteMapping("/delete/{id}")
+    public boolean deleteBook(@PathVariable Long id){
+        return bookDataBase.deleteBook(id);
     }
-    @PutMapping("/update/{name}")
-    public void updateBook(@PathVariable String name,@RequestBody Book book){
-        bookDataBase.updateBook(name,book);
+    @PutMapping("/update/{id}")
+    public boolean updateBook(@PathVariable Long id,@RequestBody Book book){
+        return bookDataBase.updateBook(id,book);
     }
 }

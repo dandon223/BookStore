@@ -1,6 +1,7 @@
 package com.BookStore.demo;
 
 public class Book {
+    private Long id;
     private String name;
     private String author;
     private int publishYear;
@@ -10,6 +11,21 @@ public class Book {
         this.name = name;
         this.author = author;
         this.publishYear = publishYear;
+    }
+
+    public Book(Long id, String name, String author, int publishYear) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.publishYear = publishYear;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
