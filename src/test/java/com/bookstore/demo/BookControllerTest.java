@@ -21,7 +21,7 @@ public class BookControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void shouldReturnNewBookId() throws Exception{
+    public void shouldReturnNewBookIdAfterAddingBook() throws Exception {
         this.mockMvc.perform(post("/books").contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {"name":"Szumilas",
@@ -42,7 +42,7 @@ public class BookControllerTest {
                         """));
     }
     @Test
-    public void shoudReturnTrueAfterBookUpdate() throws Exception {
+    public void shouldReturnTrueAfterBookUpdate() throws Exception {
         this.mockMvc.perform(put("/books/2").contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {"name":"Szumilas",
