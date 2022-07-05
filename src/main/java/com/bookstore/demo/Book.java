@@ -1,4 +1,4 @@
-package com.BookStore.demo;
+package com.bookstore.demo;
 
 public class Book {
     private Long id;
