@@ -1,11 +1,20 @@
 package com.bookstore.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@Validated
 @RestController
 @RequestMapping("books")
 public class BookController {
@@ -28,7 +37,7 @@ public class BookController {
     }
 
     @PostMapping
-    public Long addBook(@RequestBody BookRequest book){
+    public Long addBook(@Valid @RequestBody BookRequest book) {
         return bookDataBase.addBook(new Book(book.getName(),book.getAuthor(),book.getPublishYear()));
     }
 
@@ -37,7 +46,19 @@ public class BookController {
         return bookDataBase.deleteBook(id);
     }
     @PutMapping("/{id}")
-    public boolean updateBook(@PathVariable Long id,@RequestBody BookRequest book){
+    public boolean updateBook(@PathVariable Long id,@Valid @RequestBody BookRequest book){
         return bookDataBase.updateBook(id,new Book(book.getName(),book.getAuthor(),book.getPublishYear()));
     }
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public Map<String, String> handleValidationExceptions(
+//            MethodArgumentNotValidException ex) {
+//        Map<String, String> errors = new HashMap<>();
+//        ex.getBindingResult().getAllErrors().forEach((error) -> {
+//            String fieldName = ((FieldError) error).getField();
+//            String errorMessage = error.getDefaultMessage();
+//            errors.put(fieldName, errorMessage);
+//        });
+//        return errors;
+//    }
 }
