@@ -1,20 +1,19 @@
-package com.bookstore.demo;
+package com.bookstore.book;
 
-public class Book {
+public class BookModel {
     private Long id;
     private String name;
     private String author;
     private int publishYear;
 
-    public Book(){}
-    public Book(String name, String author, int publishYear) {
+    public BookModel(Long id, String name, String author, int publishYear) {
+        this.id = id;
         this.name = name;
         this.author = author;
         this.publishYear = publishYear;
     }
 
-    public Book(Long id, String name, String author, int publishYear) {
-        this.id = id;
+    public BookModel(String name, String author, int publishYear) {
         this.name = name;
         this.author = author;
         this.publishYear = publishYear;

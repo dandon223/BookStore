@@ -1,5 +1,6 @@
-package com.bookstore.demo;
+package com.bookstore.book;
 
+import com.bookstore.BookStoreApplication;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.beans.factory.annotation.Autowired;

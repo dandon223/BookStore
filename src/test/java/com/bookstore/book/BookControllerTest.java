@@ -1,9 +1,10 @@
-package com.bookstore.demo;
+package com.bookstore.book;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -25,11 +26,11 @@ public class BookControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private BookDataBase bookDataBase;
+    private BookService bookService;
 
     @Test
     public void shouldReturnNewBookIdAfterAddingBook() throws Exception {
-        when(bookDataBase.addBook(any())).thenReturn(3L);
+        when(bookService.addBook(any())).thenReturn(3L);
         this.mockMvc.perform(post("/books").contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {"name":"Szumilas",
@@ -39,7 +40,7 @@ public class BookControllerTest {
     }
     @Test
     public void shouldReturnErrorAfterFailAddingBook() throws Exception {
-        when(bookDataBase.addBook(any())).thenReturn(3L);
+        when(bookService.addBook(any())).thenReturn(3L);
         this.mockMvc.perform(post("/books").contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {"name":"Szumilas",
@@ -48,16 +49,16 @@ public class BookControllerTest {
     }
     @Test
     public void shouldReturnTrueAfterBookDelete() throws Exception{
-        when(bookDataBase.deleteBook(2L)).thenReturn(true);
+        when(bookService.deleteBook(2L)).thenReturn(true);
         this.mockMvc.perform(delete("/books/2")).andExpect(status().isOk()).andExpect(content().string("true"));
     }
 
     @Test
     public void shouldReturnListOfBooks() throws Exception {
-        when(bookDataBase.getBooks()).thenReturn(
+        when(bookService.getBooks()).thenReturn(
                 Stream.of(
-                        new Book(1L,"Narnia 1","C.S Lewis",1953)
-                                ,new Book(2L,"Cyberiada","Stanisław Lem",1965))
+                        new BookListItem(1L,"Narnia 1")
+                                ,new BookListItem(2L,"Cyberiada"))
                 .collect(Collectors.toList()));
         this.mockMvc.perform(get("/books")).andExpect(status().isOk())
                 .andExpect(content().json("""
@@ -66,7 +67,7 @@ public class BookControllerTest {
     }
     @Test
     public void shouldReturnTrueAfterBookUpdate() throws Exception {
-        when(bookDataBase.updateBook(eq(2L),any())).thenReturn(true);
+        when(bookService.updateBook(eq(2L),any())).thenReturn(true);
         this.mockMvc.perform(put("/books/2").contentType(MediaType.APPLICATION_JSON)
                 .content("""
                         {"name":"Szumilas",

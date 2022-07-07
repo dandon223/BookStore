@@ -1,4 +1,4 @@
-package com.bookstore.demo;
+package com.bookstore.book;
 
 import org.springframework.stereotype.Component;
 
@@ -7,16 +7,17 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class BookDataBase {
-    List<Book> books;
+public class BookDataBase implements BookRepository{
+    List<BookModel> books;
     public BookDataBase(){
         books = initBooks();
     }
-
-    public List<Book> getBooks() {
+    @Override
+    public List<BookModel> getBooks() {
         return books;
     }
-    public Long addBook(Book book){
+    @Override
+    public Long addBook(BookModel book){
         Long id = getBiggestId();
         if (id< 1L)
             id=1L;
@@ -24,6 +25,7 @@ public class BookDataBase {
         books.add(book);
         return id+1;
     }
+    @Override
     public boolean deleteBook(Long id){
         for(int i = 0 ; i < books.size(); i++){
             if(Objects.equals(books.get(i).getId(), id)){
@@ -33,7 +35,8 @@ public class BookDataBase {
         }
         return false;
     }
-    public boolean updateBook(Long id,Book book){
+    @Override
+    public boolean updateBook(Long id, BookModel book){
         for(int i = 0 ; i < books.size(); i++){
             if(Objects.equals(books.get(i).getId(), id)){
                 book.setId(id);
@@ -45,17 +48,17 @@ public class BookDataBase {
     }
     private Long getBiggestId(){
         Long result = -1L;
-        for(int i = 0 ; i < books.size(); i++){
-            if(books.get(i).getId() > result){
-                result = books.get(i).getId();
+        for (BookModel book : books) {
+            if (book.getId() > result) {
+                result = book.getId();
             }
         }
         return result;
     }
-    private List<Book> initBooks(){
-        List<Book> books = new ArrayList<>();
-        books.add(new Book(1L,"Narnia 1","C.S Lewis",1953));
-        books.add(new Book(2L,"Cyberiada","Stanisław Lem",1965));
+    private List<BookModel> initBooks(){
+        List<BookModel> books = new ArrayList<>();
+        books.add(new BookModel(1L,"Narnia 1","C.S Lewis",1953));
+        books.add(new BookModel(2L,"Cyberiada","Stanisław Lem",1965));
         return books;
     }
 }

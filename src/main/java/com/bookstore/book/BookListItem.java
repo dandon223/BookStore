@@ -1,4 +1,4 @@
-package com.bookstore.demo;
+package com.bookstore.book;
 
 public class BookListItem {
     private Long id;

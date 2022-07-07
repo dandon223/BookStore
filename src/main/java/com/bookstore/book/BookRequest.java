@@ -1,13 +1,13 @@
-package com.bookstore.demo;
+package com.bookstore.book;
 
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 
 public class BookRequest {
-        @NotEmpty(message = "Name can not be empty.")
+        @NotEmpty(message = "field.canNotBeEmpty")
         private String name;
-        @NotEmpty(message = "Author can not be empty.")
+        @NotEmpty(message = "field.canNotBeEmpty")
         private String author;
         @Max(value=9999,message ="Max year is 9999.")
         private int publishYear;
