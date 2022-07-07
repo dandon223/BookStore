@@ -1,5 +1,9 @@
 package com.bookstore.book;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
 public class BookListItem {
     private Long id;
     private String name;
@@ -9,13 +13,5 @@ public class BookListItem {
     public BookListItem(Long id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
     }
 }
