@@ -1,29 +1,25 @@
 package com.bookstore.book;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
+@ConditionalOnProperty(name="demo.book.repository.mode",havingValue = "MOCK",matchIfMissing = true)
 @Component
 public class BookDataBase implements BookRepository{
-    List<BookModel> books;
-    public BookDataBase(){
-        books = initBooks();
-    }
+    private static Long idCounter =1L;
+    private static List<BookModel> books = new ArrayList<>();
     @Override
     public List<BookModel> getBooks() {
         return books;
     }
     @Override
     public Long addBook(BookModel book){
-        Long id = getBiggestId();
-        if (id< 1L)
-            id=1L;
-        book.setId(id+1);
+        book.setId(idCounter++);
         books.add(book);
-        return id+1;
+        return book.getId();
     }
     @Override
     public boolean deleteBook(Long id){
@@ -45,20 +41,5 @@ public class BookDataBase implements BookRepository{
             }
         }
         return false;
-    }
-    private Long getBiggestId(){
-        Long result = -1L;
-        for (BookModel book : books) {
-            if (book.getId() > result) {
-                result = book.getId();
-            }
-        }
-        return result;
-    }
-    private List<BookModel> initBooks(){
-        List<BookModel> books = new ArrayList<>();
-        books.add(new BookModel(1L,"Narnia 1","C.S Lewis",1953));
-        books.add(new BookModel(2L,"Cyberiada","Stanisław Lem",1965));
-        return books;
     }
 }

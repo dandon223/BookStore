@@ -1,5 +1,7 @@
 package com.bookstore.book;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -8,7 +10,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +17,12 @@ import java.util.Map;
 @Validated
 @RestController
 @RequestMapping("books")
-public class BookController {
+class BookRestController {
 
     private final BookService bookService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookRestController(BookService bookService) {
         this.bookService = bookService;
     }
 
@@ -32,7 +33,7 @@ public class BookController {
 
     @PostMapping
     public Long addBook(@Valid @RequestBody BookRequest book) {
-        return bookService.addBook(new BookModel(book.getName(),book.getAuthor(),book.getPublishYear()));
+        return bookService.addBook(new Book(book.getName(),book.getAuthor(),book.getPublishYear()));
     }
 
     @DeleteMapping("/{id}")
@@ -41,7 +42,7 @@ public class BookController {
     }
     @PutMapping("/{id}")
     public boolean updateBook(@PathVariable Long id,@Valid @RequestBody BookRequest book){
-        return bookService.updateBook(id,new BookModel(book.getName(),book.getAuthor(),book.getPublishYear()));
+        return bookService.updateBook(id,new Book(book.getName(),book.getAuthor(),book.getPublishYear()));
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

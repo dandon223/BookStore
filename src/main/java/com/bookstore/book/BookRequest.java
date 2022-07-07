@@ -43,4 +43,12 @@ public class BookRequest {
             this.publishYear = publishYear;
         }
 
+        @Override
+        public String toString() {
+            return "BookRequest{" +
+                    "name='" + name + '\'' +
+                    ", author='" + author + '\'' +
+                    ", publishYear=" + publishYear +
+                    '}';
+        }
 }
