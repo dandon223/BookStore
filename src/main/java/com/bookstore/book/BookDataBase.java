@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-@ConditionalOnProperty(name="demo.book.repository.mode",havingValue = "MOCK",matchIfMissing = true)
+//@ConditionalOnProperty(name="demo.book.repository.mode",havingValue = "MOCK",matchIfMissing = true)
 @Component
 public class BookDataBase implements BookRepository{
     private static Long idCounter =1L;
