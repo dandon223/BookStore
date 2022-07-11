@@ -23,9 +23,9 @@ public interface HibernateBookDataBase extends JpaRepository<BookModel, Long>, B
   @Override
   default boolean deleteBook(Long id) {
     boolean result = this.existsById(id);
-      if (result) {
-          this.deleteById(id);
-      }
+    if (result) {
+      this.deleteById(id);
+    }
     return result;
   }
 
