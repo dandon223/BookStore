@@ -97,6 +97,15 @@
 				<configuration>
 					<configLocation>google_checks.xml</configLocation>
 				</configuration>
+				<executions>
+					<execution>
+						<id>checkstyle</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -111,5 +120,6 @@
 		</plugins>
 
 	</build>
+
 
 </project>

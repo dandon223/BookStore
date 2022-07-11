@@ -1,10 +1,11 @@
 package com.bookstore.book;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Profile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,41 +17,39 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest//(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BookServiceTest {
 
     @Autowired
     private BookService bookService;
 
-    @MockBean
+    @Autowired
     private BookRepository bookRepository;
 
     @Test
+    @Order(1)
     public void shouldReturnNewBookIdAfterAddingBook() throws Exception {
-        when(bookRepository.addBook(any())).thenReturn(3L);
         Long result = bookService.addBook(new Book("Szumilas","Jacek",1999));
-        assertThat(result).isEqualTo(3L);
+        assertThat(result).isEqualTo(1L);
     }
     @Test
+    @Order(2)
     public void shouldReturnTrueAfterBookDelete() throws Exception{
-        when(bookRepository.deleteBook(2L)).thenReturn(true);
-        Boolean result = bookService.deleteBook(2L);
+        Boolean result = bookService.deleteBook(1L);
         assertThat(result).isEqualTo(true);
     }
     @Test
+    @Order(3)
     public void shouldReturnListOfBooks() throws Exception {
-        when(bookRepository.getBooks()).thenReturn(
-                Stream.of(
-                                new BookModel(1L,"Narnia 1","Author 1",1999)
-                                ,new BookModel(2L,"Cyberiada","Author 2",2001))
-                        .collect(Collectors.toList()));
+        bookService.addBook(new Book("Narnia 1","Author 1",1999));
+        bookService.addBook(new Book("Cyberiada","Author 2",2001));
         List<BookListItem> result = bookService.getBooks();
         assertThat(result.get(0).getName()).isEqualTo("Narnia 1");
         assertThat(result.size()).isEqualTo(2);
     }
     @Test
+    @Order(4)
     public void shouldReturnTrueAfterBookUpdate() throws Exception {
-        when(bookRepository.updateBook(eq(2L),any())).thenReturn(true);
         Boolean result = bookService.updateBook(2L,new Book("Name 1","Author 1",1999));
         assertThat(result).isEqualTo(true);
     }
