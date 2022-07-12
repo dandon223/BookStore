@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @ConditionalOnProperty(name = "demo.book.repository.mode", havingValue = "PROD")
 @Repository
-public interface HibernateBookDataBase extends JpaRepository<BookModel, Long>, BookRepository {
+public interface JpaBookDataBase extends JpaRepository<BookModel, Long>, BookRepository {
   @Override
   default List<BookModel> getBooks() {
     return this.findAll();

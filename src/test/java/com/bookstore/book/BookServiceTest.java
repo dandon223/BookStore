@@ -4,12 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Optional;
-import net.bytebuddy.dynamic.DynamicType;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -20,14 +16,11 @@ public class BookServiceTest {
   private BookService bookService;
 
   @Autowired
-  private BookRepository bookRepository;
+  private JpaBookDataBase jpaBookDataBase;
 
   @BeforeEach
   void deleteBooks() {
-    List<BookModel> books = bookRepository.getBooks();
-    for (BookModel bookModel : books) {
-      bookRepository.deleteBook(bookModel.getId());
-    }
+    jpaBookDataBase.deleteAllInBatch();
   }
 
   @Test
@@ -46,7 +39,7 @@ public class BookServiceTest {
   @Test
   void shouldAddBookToRepository() {
     Long id = bookService.addBook(new Book("Szumilas", "Jacek", 1999));
-    Optional<BookModel> bookModelOptional = bookRepository.getBook(id);
+    Optional<BookModel> bookModelOptional = jpaBookDataBase.getBook(id);
     assertThat(bookModelOptional.isPresent()).isEqualTo(true);
   }
 
@@ -80,7 +73,7 @@ public class BookServiceTest {
   void shouldUpdateBook() {
     Long id = bookService.addBook(new Book("Narnia 1", "Author 1", 1999));
     bookService.updateBook(id, new Book("Name 1", "Author 1", 1999));
-    Optional<BookModel> bookModelOptional = bookRepository.getBook(id);
+    Optional<BookModel> bookModelOptional = jpaBookDataBase.getBook(id);
     assertThat(bookModelOptional.isPresent()).isEqualTo(true);
     bookModelOptional.ifPresent(bookModel -> assertThat(bookModel.getName()).isEqualTo("Name 1"));
   }
