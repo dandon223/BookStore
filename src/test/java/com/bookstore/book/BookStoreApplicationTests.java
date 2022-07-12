@@ -15,7 +15,7 @@ public class BookStoreApplicationTests {
   private BookStoreApplication bookStoreApplication;
 
   @Test
-  public void contextLoads() throws Exception {
+  public void contextLoads() {
     assertThat(bookStoreApplication).isNotNull();
   }
 

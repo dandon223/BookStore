@@ -23,26 +23,28 @@ public class BookServiceTest {
   private BookRepository bookRepository;
 
   @BeforeEach
-  void deleteBooks(){
+  void deleteBooks() {
     List<BookModel> books = bookRepository.getBooks();
-    for(BookModel bookModel : books){
+    for (BookModel bookModel : books) {
       bookRepository.deleteBook(bookModel.getId());
     }
   }
+
   @Test
   void shouldReturnNewBookIdAfterAddingBook() {
     Long result = bookService.addBook(new Book("Szumilas", "Jacek", 1999));
     assertThat(result).isGreaterThan(0L);
   }
+
   @Test
-  void shouldReturnDifferentIds(){
+  void shouldReturnDifferentIds() {
     Long firstId = bookService.addBook(new Book("Szumilas", "Jacek", 1999));
-    Long secondId= bookService.addBook(new Book("Szumi", "Marek", 2000));
+    Long secondId = bookService.addBook(new Book("Szumi", "Marek", 2000));
     assertThat(firstId).isNotEqualTo(secondId);
   }
 
   @Test
-  void shouldAddBookToRepository(){
+  void shouldAddBookToRepository() {
     Long id = bookService.addBook(new Book("Szumilas", "Jacek", 1999));
     Optional<BookModel> bookModelOptional = bookRepository.getBook(id);
     assertThat(bookModelOptional.isPresent()).isEqualTo(true);
@@ -73,16 +75,18 @@ public class BookServiceTest {
     Boolean result = bookService.updateBook(id, new Book("Name 1", "Author 1", 1999));
     assertThat(result).isEqualTo(true);
   }
+
   @Test
-  void shouldUpdateBook(){
+  void shouldUpdateBook() {
     Long id = bookService.addBook(new Book("Narnia 1", "Author 1", 1999));
     bookService.updateBook(id, new Book("Name 1", "Author 1", 1999));
     Optional<BookModel> bookModelOptional = bookRepository.getBook(id);
     assertThat(bookModelOptional.isPresent()).isEqualTo(true);
     bookModelOptional.ifPresent(bookModel -> assertThat(bookModel.getName()).isEqualTo("Name 1"));
   }
+
   @Test
-  void shouldGetBook(){
+  void shouldGetBook() {
     Long id = bookService.addBook(new Book("Narnia 1", "Author 1", 1999));
     Optional<BookListItem> bookModelOptional = bookService.getBook(id);
     assertThat(bookModelOptional.isPresent()).isEqualTo(true);

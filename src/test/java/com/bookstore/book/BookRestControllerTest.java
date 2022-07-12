@@ -78,7 +78,7 @@ public class BookRestControllerTest {
   }
 
   @Test
-  public void shouldReturnBook() throws Exception{
+  public void shouldReturnBook() throws Exception {
     when(bookService.getBook(1L)).thenReturn(Optional.of(new BookListItem(1L, "Szumilas")));
     this.mockMvc.perform(get("/books/1")).andExpect(status().isOk()).andExpect(content().string("""
         {"id":1,"name":"Szumilas"}"""));

@@ -1,13 +1,13 @@
 package com.bookstore.book;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 class BookService {
@@ -46,7 +46,8 @@ class BookService {
     return bookRepository.updateBook(id,
         new BookModel(book.getName(), book.getAuthor(), book.getPublishYear()));
   }
-  public Optional<BookListItem> getBook(Long id){
+
+  public Optional<BookListItem> getBook(Long id) {
     logger.info("Getting book with id = " + id + ".");
     Optional<BookModel> bookModelOptional = bookRepository.getBook(id);
     return bookModelOptional.map(

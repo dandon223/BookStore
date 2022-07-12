@@ -1,11 +1,10 @@
 package com.bookstore.book;
 
+import java.util.List;
+import java.util.Optional;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
 
 @ConditionalOnProperty(name = "demo.book.repository.mode", havingValue = "PROD")
 @Repository

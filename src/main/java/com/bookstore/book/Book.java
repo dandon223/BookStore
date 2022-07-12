@@ -11,8 +11,7 @@ public class Book {
   private String author;
   private int publishYear;
 
-  public Book() {
-  }
+  public Book() {}
 
   public Book(String name, String author, int publishYear) {
     this.name = name;
@@ -29,11 +28,11 @@ public class Book {
 
   @Override
   public String toString() {
-    return "Book{" +
-        "id=" + id +
-        ", name='" + name + '\'' +
-        ", author='" + author + '\'' +
-        ", publishYear=" + publishYear +
-        '}';
+    return "Book{"
+        + "id=" + id
+        + ", name='" + name + '\''
+        + ", author='" + author + '\''
+        + ", publishYear=" + publishYear
+        + '}';
   }
 }
