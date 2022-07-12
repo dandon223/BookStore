@@ -41,4 +41,9 @@ public interface HibernateBookDataBase extends JpaRepository<BookModel, Long>, B
     });
     return bookModel.isPresent();
   }
+
+  @Override
+  default Optional<BookModel> getBook(Long id) {
+    return this.findById(id);
+  }
 }

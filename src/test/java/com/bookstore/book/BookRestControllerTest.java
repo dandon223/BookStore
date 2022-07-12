@@ -1,5 +1,6 @@
 package com.bookstore.book;
 
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -74,5 +75,12 @@ public class BookRestControllerTest {
          "author":"Jacek",
          "publishYear":1999}
         """)).andExpect(status().isOk()).andExpect(content().string("true"));
+  }
+
+  @Test
+  public void shouldReturnBook() throws Exception{
+    when(bookService.getBook(1L)).thenReturn(Optional.of(new BookListItem(1L, "Szumilas")));
+    this.mockMvc.perform(get("/books/1")).andExpect(status().isOk()).andExpect(content().string("""
+        {"id":1,"name":"Szumilas"}"""));
   }
 }

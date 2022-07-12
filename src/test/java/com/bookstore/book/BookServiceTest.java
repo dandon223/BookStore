@@ -1,23 +1,19 @@
 package com.bookstore.book;
 
-import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Profile;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import java.util.Optional;
+import net.bytebuddy.dynamic.DynamicType;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest//(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BookServiceTest {
 
   @Autowired
@@ -26,23 +22,44 @@ public class BookServiceTest {
   @Autowired
   private BookRepository bookRepository;
 
+  @BeforeEach
+  void deleteBooks(){
+    List<BookModel> books = bookRepository.getBooks();
+    for(BookModel bookModel : books){
+      bookRepository.deleteBook(bookModel.getId());
+    }
+  }
   @Test
-  @Order(1)
-  public void shouldReturnNewBookIdAfterAddingBook() throws Exception {
+  void shouldReturnNewBookIdAfterAddingBook() {
     Long result = bookService.addBook(new Book("Szumilas", "Jacek", 1999));
-    assertThat(result).isEqualTo(1L);
+    assertThat(result).isGreaterThan(0L);
+  }
+  @Test
+  void shouldReturnDifferentIds(){
+    Long firstId = bookService.addBook(new Book("Szumilas", "Jacek", 1999));
+    Long secondId= bookService.addBook(new Book("Szumi", "Marek", 2000));
+    assertThat(firstId).isNotEqualTo(secondId);
   }
 
   @Test
-  @Order(2)
-  public void shouldReturnTrueAfterBookDelete() throws Exception {
-    Boolean result = bookService.deleteBook(1L);
+  void shouldAddBookToRepository(){
+    Long id = bookService.addBook(new Book("Szumilas", "Jacek", 1999));
+    Optional<BookModel> bookModelOptional = bookRepository.getBook(id);
+    assertThat(bookModelOptional.isPresent()).isEqualTo(true);
+  }
+
+  @Test
+  void shouldReturnTrueAfterBookDelete() {
+    // given
+    Long bookId = bookService.addBook(new Book("Szumilas", "Jacek", 1999));
+    // when
+    Boolean result = bookService.deleteBook(bookId);
+    // then
     assertThat(result).isEqualTo(true);
   }
 
   @Test
-  @Order(3)
-  public void shouldReturnListOfBooks() throws Exception {
+  void shouldReturnListOfBooks() {
     bookService.addBook(new Book("Narnia 1", "Author 1", 1999));
     bookService.addBook(new Book("Cyberiada", "Author 2", 2001));
     List<BookListItem> result = bookService.getBooks();
@@ -51,9 +68,23 @@ public class BookServiceTest {
   }
 
   @Test
-  @Order(4)
-  public void shouldReturnTrueAfterBookUpdate() throws Exception {
-    Boolean result = bookService.updateBook(2L, new Book("Name 1", "Author 1", 1999));
+  void shouldReturnTrueAfterBookUpdate() {
+    Long id = bookService.addBook(new Book("Narnia 1", "Author 1", 1999));
+    Boolean result = bookService.updateBook(id, new Book("Name 1", "Author 1", 1999));
     assertThat(result).isEqualTo(true);
+  }
+  @Test
+  void shouldUpdateBook(){
+    Long id = bookService.addBook(new Book("Narnia 1", "Author 1", 1999));
+    bookService.updateBook(id, new Book("Name 1", "Author 1", 1999));
+    Optional<BookModel> bookModelOptional = bookRepository.getBook(id);
+    assertThat(bookModelOptional.isPresent()).isEqualTo(true);
+    bookModelOptional.ifPresent(bookModel -> assertThat(bookModel.getName()).isEqualTo("Name 1"));
+  }
+  @Test
+  void shouldGetBook(){
+    Long id = bookService.addBook(new Book("Narnia 1", "Author 1", 1999));
+    Optional<BookListItem> bookModelOptional = bookService.getBook(id);
+    assertThat(bookModelOptional.isPresent()).isEqualTo(true);
   }
 }

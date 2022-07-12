@@ -1,11 +1,9 @@
 package com.bookstore.book;
 
-
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -14,7 +12,7 @@ public class BookRequest {
   private String name;
   @NotEmpty(message = "field.canNotBeEmpty")
   private String author;
-  @Max(value = 9999, message = "Max year is 9999.")
+  @Max(value = 9999, message = "field.tooBig")
   private int publishYear;
 
   public BookRequest() {
@@ -28,10 +26,10 @@ public class BookRequest {
 
   @Override
   public String toString() {
-    return "BookRequest{" +
-        "name='" + name + '\'' +
-        ", author='" + author + '\'' +
-        ", publishYear=" + publishYear +
-        '}';
+    return "BookRequest{"
+        + "name='" + name + '\''
+        + ", author='" + author + '\''
+        + ", publishYear=" + publishYear
+        + '}';
   }
 }

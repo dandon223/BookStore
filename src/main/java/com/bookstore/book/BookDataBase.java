@@ -1,5 +1,6 @@
 package com.bookstore.book;
 
+import java.util.Optional;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
@@ -46,5 +47,15 @@ public class BookDataBase implements BookRepository {
       }
     }
     return false;
+  }
+
+  @Override
+  public Optional<BookModel> getBook(Long id) {
+    for (BookModel book : books) {
+      if (Objects.equals(book.getId(), id)) {
+        return Optional.of(book);
+      }
+    }
+    return Optional.empty();
   }
 }
