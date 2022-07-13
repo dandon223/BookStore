@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -69,5 +70,11 @@ class BookRestController {
       errors.put(fieldName, errorMessage);
     });
     return errors;
+  }
+  @ResponseBody
+  @ExceptionHandler(BookNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  String bookNotFoundHandler(BookNotFoundException ex) {
+    return ex.getMessage();
   }
 }
