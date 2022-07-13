@@ -27,7 +27,6 @@ class BookRestController {
 
   private final BookService bookService;
 
-  @Autowired
   public BookRestController(BookService bookService) {
     this.bookService = bookService;
   }
