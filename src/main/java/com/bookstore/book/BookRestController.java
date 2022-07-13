@@ -3,6 +3,7 @@ package com.bookstore.book;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ class BookRestController {
   }
 
   @GetMapping
-  public List<BookListItem> getBooks() {
+  public Stream<BookListItem> getBooks() {
     return bookService.getBooks();
   }
 
