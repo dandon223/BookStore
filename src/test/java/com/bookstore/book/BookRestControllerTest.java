@@ -60,7 +60,8 @@ public class BookRestControllerTest {
   @Test
   public void shouldReturnListOfBooks() throws Exception {
     when(bookService.getBooks()).thenReturn(
-        Stream.of(new BookListItem(1L, "Narnia 1"), new BookListItem(2L, "Cyberiada")));
+        Stream.of(new BookListItem(1L, "Narnia 1"), new BookListItem(2L, "Cyberiada")).collect(
+            Collectors.toList()));
     this.mockMvc.perform(get("/books")).andExpect(status().isOk()).andExpect(content().json("""
         [{"id":1,"name":"Narnia 1"},{"id":2,"name":"Cyberiada"}]
         """));

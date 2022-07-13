@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +57,9 @@ public class BookServiceTest {
   void shouldReturnListOfBooks() {
     bookService.addBook(new Book("Narnia 1", "Author 1", 1999));
     bookService.addBook(new Book("Cyberiada", "Author 2", 2001));
-    Stream<BookListItem> result = bookService.getBooks();
-    assertThat(result.findFirst().get().getName()).isEqualTo("Narnia 1");
+    List<BookListItem> result = bookService.getBooks();
+    assertThat(result.get(0).getName()).isEqualTo("Narnia 1");
+    assertThat(result.size()).isEqualTo(2);
   }
 
   @Test

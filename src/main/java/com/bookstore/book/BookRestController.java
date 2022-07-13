@@ -34,24 +34,30 @@ class BookRestController {
   }
 
   @GetMapping
-  public Stream<BookListItem> getBooks() {
+  public List<BookListItem> getBooks() {
     return bookService.getBooks();
   }
 
   @PostMapping
   public Long addBook(@Valid @RequestBody BookRequest book) {
-    return bookService.addBook(new Book(book.getName(), book.getAuthor(), book.getPublishYear()));
+    return bookService.addBook(BookMapper.INSTANCE.bookRequesttoBook(book));
   }
 
   @DeleteMapping("/{id}")
   public boolean deleteBook(@PathVariable Long id) {
-    return bookService.deleteBook(id);
+    if(bookService.deleteBook(id))
+      return true;
+    else
+      throw new BookNotFoundException(id);
+
   }
 
   @PutMapping("/{id}")
-  public boolean updateBook(@PathVariable Long id, @Valid @RequestBody BookRequest book) {
-    return bookService.updateBook(id,
-        new Book(book.getName(), book.getAuthor(), book.getPublishYear()));
+  public boolean updateBook(@PathVariable Long id, @Valid @RequestBody BookRequest bookRequest) {
+    if(bookService.updateBook(id, BookMapper.INSTANCE.bookRequesttoBook(bookRequest)))
+      return true;
+    else
+      throw new BookNotFoundException(id);
   }
 
   @GetMapping("/{id}")

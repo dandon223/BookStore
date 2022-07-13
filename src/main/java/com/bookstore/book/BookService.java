@@ -3,6 +3,7 @@ package com.bookstore.book;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,14 +22,10 @@ class BookService {
     this.bookRepository = bookDataBase;
   }
 
-  public Stream<BookListItem> getBooks() {
+  public List<BookListItem> getBooks() {
     logger.info("Getting Books");
     List<BookModel> books = bookRepository.getBooks();
-    List<BookListItem> result = new ArrayList<>();
-    for (BookModel bookModel : books) {
-      result.add(BookMapper.INSTANCE.bookModeltoBookListItem(bookModel));
-    }
-    return result.stream();
+    return books.stream().map(BookMapper.INSTANCE::bookModeltoBookListItem).collect(Collectors.toList());
   }
 
   public Long addBook(Book book) {

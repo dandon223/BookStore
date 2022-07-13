@@ -9,4 +9,5 @@ public interface BookMapper {
 
   BookListItem bookModeltoBookListItem(BookModel bookModel);
   BookModel booktoBookModel(Book book);
+  Book bookRequesttoBook(BookRequest bookRequest);
 }
