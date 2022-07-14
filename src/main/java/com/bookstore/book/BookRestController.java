@@ -3,9 +3,7 @@ package com.bookstore.book;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 import javax.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -40,7 +38,7 @@ class BookRestController {
 
   @PostMapping
   public Long addBook(@Valid @RequestBody BookRequest book) {
-    return bookService.addBook(BookMapper.INSTANCE.bookRequesttoBook(book));
+    return bookService.addBook(BookMapper.INSTANCE.mapToBook(book));
   }
 
   @DeleteMapping("/{id}")
@@ -54,7 +52,7 @@ class BookRestController {
 
   @PutMapping("/{id}")
   public boolean updateBook(@PathVariable Long id, @Valid @RequestBody BookRequest bookRequest) {
-    if(bookService.updateBook(id, BookMapper.INSTANCE.bookRequesttoBook(bookRequest)))
+    if(bookService.updateBook(id, BookMapper.INSTANCE.mapToBook(bookRequest)))
       return true;
     else
       throw new BookNotFoundException(id);

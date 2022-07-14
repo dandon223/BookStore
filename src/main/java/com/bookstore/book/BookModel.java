@@ -5,32 +5,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
 @Getter
 @Setter
-@Entity
-@Data
-@NoArgsConstructor
 @Table(name = "BOOK_MODEL")
 public class BookModel {
   @Id
   @GeneratedValue
-  @Column(name = "id")
+  @Column(name = "id", nullable = false)
   private Long id;
-  @Column(name = "name")
+  @Column(name = "name", nullable = false)
   private String name;
-  @Column(name = "author")
+  @Column(name = "author", nullable = false)
   private String author;
-  @Column(name = "publishYear")
+  @Column(name = "publishYear", nullable = false)
   private int publishYear;
-
-  public BookModel(String name, String author, int publishYear) {
-    this.name = name;
-    this.author = author;
-    this.publishYear = publishYear;
-  }
 }

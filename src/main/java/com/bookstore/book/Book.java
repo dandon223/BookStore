@@ -1,23 +1,16 @@
 package com.bookstore.book;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Data
-@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Book {
   private Long id;
   private String name;
   private String author;
   private int publishYear;
 
-  public Book(String name, String author, int publishYear) {
-    this.name = name;
-    this.author = author;
-    this.publishYear = publishYear;
-  }
 }

@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 public interface BookMapper {
   BookMapper INSTANCE = Mappers.getMapper( BookMapper.class );
 
-  BookListItem bookModeltoBookListItem(BookModel bookModel);
-  BookModel booktoBookModel(Book book);
-  Book bookRequesttoBook(BookRequest bookRequest);
+  BookListItem mapToBookListItem(BookModel bookModel);
+  BookModel mapToBookModel(Book book);
+  Book mapToBook(BookRequest bookRequest);
 }

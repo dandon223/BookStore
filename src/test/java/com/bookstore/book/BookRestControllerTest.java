@@ -60,12 +60,14 @@ public class BookRestControllerTest {
   @Test
   public void shouldReturnListOfBooks() throws Exception {
     when(bookService.getBooks()).thenReturn(
-        Stream.of(new BookListItem(1L, "Narnia 1"), new BookListItem(2L, "Cyberiada")).collect(
+        Stream.of(newBookListItem(1L, "Narnia 1"), new BookListItem(2L, "Cyberiada")).collect(
             Collectors.toList()));
     this.mockMvc.perform(get("/books")).andExpect(status().isOk()).andExpect(content().json("""
         [{"id":1,"name":"Narnia 1"},{"id":2,"name":"Cyberiada"}]
         """));
   }
+
+
 
   @Test
   public void shouldReturnTrueAfterBookUpdate() throws Exception {
@@ -82,5 +84,8 @@ public class BookRestControllerTest {
     when(bookService.getBook(1L)).thenReturn(Optional.of(new BookListItem(1L, "Szumilas")));
     this.mockMvc.perform(get("/books/1")).andExpect(status().isOk()).andExpect(content().string("""
         {"id":1,"name":"Szumilas"}"""));
+  }
+  private BookListItem newBookListItem(long id, String name) {
+    return BookListItem.builder().id(id).name(name).build();
   }
 }
