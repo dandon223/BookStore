@@ -42,20 +42,13 @@ class BookRestController {
   }
 
   @DeleteMapping("/{id}")
-  public boolean deleteBook(@PathVariable Long id) {
-    if(bookService.deleteBook(id))
-      return true;
-    else
-      throw new BookNotFoundException(id);
-
+  public void deleteBook(@PathVariable Long id) {
+    bookService.deleteBook(id);
   }
 
   @PutMapping("/{id}")
-  public boolean updateBook(@PathVariable Long id, @Valid @RequestBody BookRequest bookRequest) {
-    if(bookService.updateBook(id, BookMapper.INSTANCE.mapToBook(bookRequest)))
-      return true;
-    else
-      throw new BookNotFoundException(id);
+  public void updateBook(@PathVariable Long id, @Valid @RequestBody BookRequest bookRequest) {
+    bookService.updateBook(id, BookMapper.INSTANCE.mapToBook(bookRequest));
   }
 
   @GetMapping("/{id}")
@@ -75,6 +68,7 @@ class BookRestController {
     });
     return errors;
   }
+
   @ResponseBody
   @ExceptionHandler(BookNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)

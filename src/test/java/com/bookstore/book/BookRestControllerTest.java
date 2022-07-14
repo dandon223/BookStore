@@ -53,8 +53,7 @@ public class BookRestControllerTest {
   @Test
   public void shouldReturnTrueAfterBookDelete() throws Exception {
     when(bookService.deleteBook(2L)).thenReturn(true);
-    this.mockMvc.perform(delete("/books/2")).andExpect(status().isOk())
-        .andExpect(content().string("true"));
+    this.mockMvc.perform(delete("/books/2")).andExpect(status().isOk());
   }
 
   @Test
@@ -76,7 +75,7 @@ public class BookRestControllerTest {
         {"name":"Szumilas",
          "author":"Jacek",
          "publishYear":1999}
-        """)).andExpect(status().isOk()).andExpect(content().string("true"));
+        """)).andExpect(status().isOk());
   }
 
   @Test

@@ -34,12 +34,18 @@ class BookService {
 
   public boolean deleteBook(Long id) {
     logger.info("Deleting book with id = " + id + ".");
-    return bookRepository.deleteBook(id);
+    if(!bookRepository.deleteBook(id)){
+      throw new BookNotFoundException(id);
+    }
+    return true;
   }
 
   public boolean updateBook(Long id, Book book) {
     logger.info("Updating " + book.toString() + " with id = " + id + ".");
-    return bookRepository.updateBook(id,BookMapper.INSTANCE.mapToBookModel(book));
+    if(!bookRepository.updateBook(id,BookMapper.INSTANCE.mapToBookModel(book))){
+      throw new BookNotFoundException(id);
+    }
+    return true;
   }
 
   public Optional<BookListItem> getBook(Long id) {
